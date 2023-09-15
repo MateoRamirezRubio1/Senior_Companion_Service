@@ -20,9 +20,12 @@ from scs_app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'),
-    path('contact/', views.home, name='contact'),
-    path('main/', views.home, name='main'),
-    path('reserves/',views.home, name='reserves')
-
+    path('', views.main, name='main'),
+    path('home/', views.main, name='main'),
+    path('contact/', views.contact, name='contact'),
+    path('main/', views.main, name='main'),
+    path('reserves/',views.reserves, name='reserves'),
+    path('services/',views.services, name='services'),
+    path('login/',views.login, name='login'),
+    path('editProfile/',views.editProfile, name='editProfile'),
 ]

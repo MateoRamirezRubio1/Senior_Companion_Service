@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+    <!-- Incluir Bootstrap CSS (CDN) -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Incluir jQuery (CDN) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Incluir Bootstrap JS (CDN) -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <style>
+        .formulario-btn-group {
+            margin-bottom: 20px;
+        }
+
+        .formulario-btn {
+            margin-right: 10px;
+        }
+
+        .modal-content {
+            border-radius: 15px;
+            /* Aplica el borde redondeado a la ventana modal */
+        }
+
+        .modal-dialog {
+            max-width: 600px;
+            /* Ajusta el ancho máximo de la ventana modal según tus necesidades */
+        }
+
+        .modal-content {
+            max-height: 80vh;
+            /* Establece una altura máxima para la ventana modal */
+            overflow-y: auto;
+            /* Agrega desbordamiento vertical */
+        }
+
+        .formulario {
+            padding: 20px;
+            /* Agrega un relleno al formulario para separarlo del borde */
+        }
+
+        /* Ajusta el ancho del formulario para ocupar el 100% de la ventana modal */
+        .formulario form {
+            width: 100%;
+        }
+
+        .gradient-custom-3 {
+            /* fallback for old browsers */
+            background: #007bff;
+
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: -webkit-linear-gradient(to right, rgba(0, 123, 255, 0.5), rgba(143, 211, 244, 0.5));
+
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            background: linear-gradient(to right, rgba(0, 123, 255, 0.5), rgba(143, 211, 244, 0.5))
+        }
+
+        .gradient-custom-4 {
+            /* fallback for old browsers */
+            background: #007bff;
+
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: -webkit-linear-gradient(to right, rgba(0, 123, 255, 1), rgba(143, 211, 244, 1));
+
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            background: linear-gradient(to right, rgba(0, 123, 255, 1), rgba(143, 211, 244, 1))
+        }
+
+        /* Estilos para el botón de cerrar */
+        .close-btn {
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Estilo para ajustar la posición del botón de cerrar */
+        .close-btn-container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        /* Centrar los botones de formulario 1 y formulario 2 */
+        .centered-buttons {
+            display: flex;
+            justify-content: center;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group label {
+            position: absolute;
+            left: 10px;
+            top: 8px;
+            transition: 0.2s ease all;
+            color: #777;
+            /* Color gris claro para el placeholder normal */
+        }
+
+        .form-group input:focus+label,
+        .form-group input:not(:placeholder-shown)+label {
+            top: -10px;
+            font-size: 12px;
+            background-color: white;
+            padding: 0 10px;
+            margin-left: 25px;
+            color: #007bff;
+            /* Cambia el color a azul cuando el campo está enfocado o tiene contenido */
+        }
+
+        .form-group input:focus {
+            border-color: #007bff;
+        }
+
+        /* Estilos para la casilla de verificación */
+        .custom-checkbox .custom-control-label::before {
+            border: 1px solid #007bff;
+            /* Borde azul */
+        }
+
+        .custom-checkbox .custom-control-input:checked~.custom-control-label::before {
+            background-color: #007bff;
+            /* Fondo azul cuando se marca */
+            border-color: #007bff !important;
+            /* Borde azul cuando se marca (con !important para anular estilos de Bootstrap) */
+        }
+
+        /* Estilos para el texto del campo "Aceptar términos y condiciones" */
+        .custom-checkbox .custom-control-label {
+            color: #000 !important;
+            /* Color de texto en negro (con !important para anular estilos de Bootstrap) */
+        }
+
+        /* Estilo personalizado para las bolitas */
+        .bolita-input {
+            display: none;
+            /* Oculta el input real */
+        }
+
+        .bolita-label {
+            display: flex;
+            align-items: center;
+            /* Centra verticalmente el contenido */
+            cursor: pointer;
+            margin-right: 10px;
+            /* Añade espacio entre las opciones */
+        }
+
+        .bolita-label .bolita {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #fff;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+            /* Agrega una sombra */
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+            /* Transiciones suaves */
+            margin-right: 5px;
+            /* Reduce el espacio entre bolitas */
+        }
+
+        .bolita-label.selected .bolita {
+            background-color: #007bff;
+            /* Cambia el color al seleccionar */
+            color: #fff;
+            transform: scale(1.2);
+            /* Escala ligeramente al seleccionar */
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+            /* Sombra más pronunciada al seleccionar */
+        }
+
+        /* Estilo para el texto junto a la bolita */
+        .bolita-label .texto {
+            flex-grow: 1;
+            /* Ocupa todo el espacio restante */
+        }
+
+        /* Estilo para el contenedor de las opciones */
+        .opciones-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .formulario-separador {
+            border-top: 1px solid #ccc;
+            margin-top: 20px;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <!-- Botón para abrir la ventana modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+            Log-in or Sing-up
+        </button>
+
+        <!-- Ventana modal -->
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog modal-lg"> <!-- Elimina la clase modal-dialog-centered -->
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <!-- Contenido de la ventana modal -->
+                        <div class="formulario-btn-group centered-buttons"> <!-- Aplica la clase centered-buttons -->
+                            <button id="mostrarFormulario1" class="btn formulario-btn">Log In</button>
+                            <button id="mostrarFormulario2" class="btn formulario-btn">Register</button>
+                        </div>
+
+                        <!-- Botón de cerrar en la esquina superior derecha -->
+                        <div class="close-btn-container">
+                            <button type="button" class="close close-btn" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <div class="formulario-separador"></div>
+
+                        <section class="formulario" id="formulario1">
+                            <!-- Contenido del primer formulario -->
+                            <div class="text-center">
+                                <h4 class="mt-1 mb-5 pb-1">Sign In</h4>
+                            </div>
+
+                            <form>
+                                <p>Please login to your account</p>
+
+                                <div class="form-outline mb-4 form-group">
+                                    <input type="email" id="form3Example3cg" class="form-control form-control-lg"
+                                        placeholder=" " />
+                                    <label class="form-label" for="form3Example3cg">Your
+                                        Email</label>
+                                </div>
+
+                                <div class="form-outline mb-4 form-group">
+                                    <input type="password" id="form3Example4cg" class="form-control form-control-lg"
+                                        placeholder=" " />
+                                    <label class="form-label" for="form3Example4cg">Password</label>
+                                </div>
+
+                                <div
+                                    class="form-check d-flex justify-content-center form-group custom-control custom-checkbox">
+                                    <input class="form-check-input me-2 custom-control-input" type="checkbox" value=""
+                                        id="form1Example3" />
+                                    <label class="form-check-label custom-control-label" for="form1Example3">
+                                        Remember me </label>
+                                </div>
+
+                                <div class="text-center pt-1 mb-5 pb-1">
+                                    <div class="d-flex justify-content-center">
+                                        <button type="button"
+                                            class="btn btn-info btn-block btn-lg gradient-custom-4">Sign Up</button>
+                                    </div>
+                                    <a class="text-muted" href="#!">Forgot password?</a>
+                                </div>
+
+                                <div class="d-flex align-items-center justify-content-center pb-4">
+                                    <p class="mb-0 me-2 mr-2">Don't have an account?</p>
+                                    <button type="button" class="btn btn-outline-primary" id="createNewBtn">Create
+                                        new</button>
+                                </div>
+
+                            </form>
+
+
+                        </section>
+
+                        <div id="formulario2" class="formulario">
+                            <!-- Contenido del segundo formulario -->
+                            <div class="text-center">
+                                <h4 class="mt-1 mb-5 pb-1">Sign Up</h4>
+                            </div>
+
+                            <form>
+                                <div class="form-outline mb-4 form-group">
+                                    <input type="text" id="form3Example1cg" class="form-control form-control-lg"
+                                        placeholder=" " />
+                                    <label class="form-label" for="form3Example1cg">Your
+                                        Names</label>
+                                </div>
+
+                                <div class="form-outline mb-4 form-group">
+                                    <input type="text" id="form3Example1cg" class="form-control form-control-lg"
+                                        placeholder=" " />
+                                    <label class="form-label" for="form3Example1cg">Your Last
+                                        Names</label>
+                                </div>
+
+                                <div class="form-outline mb-4 form-group">
+                                    <input type="email" id="form3Example3cg" class="form-control form-control-lg"
+                                        placeholder=" " />
+                                    <label class="form-label" for="form3Example3cg">Your
+                                        Email</label>
+                                </div>
+
+                                <div class="opciones-container">
+                                    <p class="fw-light text-muted">Account type </p>
+                                    <div class="row mt-1">
+                                        <div class="col">
+                                            <label class="bolita-label">
+                                                <input type="radio" name="opcion" class="bolita-input">
+                                                <div class="bolita"></div>
+                                                <div class="texto">Customer</div>
+                                            </label>
+                                        </div>
+                                        <div class="col">
+                                            <label class="bolita-label">
+                                                <input type="radio" name="opcion" class="bolita-input">
+                                                <div class="bolita"></div>
+                                                <div class="texto">Companion</div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-outline mb-4 form-group">
+                                    <input type="password" id="form3Example4cg" class="form-control form-control-lg"
+                                        placeholder=" " />
+                                    <label class="form-label" for="form3Example4cg">Password</label>
+                                </div>
+
+                                <div class="form-outline mb-4 form-group">
+                                    <input type="password" id="form3Example4cdg" class="form-control form-control-lg"
+                                        placeholder=" " />
+                                    <label class="form-label" for="form3Example4cdg">Repeat
+                                        your
+                                        password</label>
+                                </div>
+
+                                <div
+                                    class="form-check d-flex justify-content-center form-group custom-control custom-checkbox">
+                                    <input class="form-check-input me-2 custom-control-input" type="checkbox" value=""
+                                        id="form2Example3c" />
+                                    <label class="form-check-label custom-control-label" for="form2Example3c">
+                                        I agree all statements in <a href="#!">Terms of service</a>
+                                    </label>
+                                </div>
+
+                                <div class="d-flex justify-content-center">
+                                    <button type="button" class="btn btn-info btn-block btn-lg gradient-custom-4">Sign
+                                        In</button>
+                                </div>
+
+                                <div
+                                    class="d-flex align-items-center justify-content-center pb-4 text-center text-muted mt-5 mb-0">
+                                    <p class="mb-0 me-2  mr-2">Have already an
+                                        account?</p>
+                                    <button type="button" class="btn btn-outline-primary" id="loginHereBtn">Login
+                                        here</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Incluir jQuery (CDN) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Incluir Bootstrap JS (CDN) -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Ocultar inicialmente uno de los formularios en la ventana modal
+            $("#formulario2").hide();
+
+            // Función para mostrar el formulario 1 en la ventana modal y resaltar el botón
+            $("#mostrarFormulario1").click(function () {
+                if (!$("#formulario1").hasClass("formulario-activa")) {
+                    $("#formulario2").fadeOut(100, function () {
+                        $("#formulario1").fadeIn(100).addClass("formulario-activa");
+                        $("#formulario2").removeClass("formulario-activa");
+
+                        // Resaltar el botón del formulario 1 y desresaltar el del formulario 2
+                        $("#mostrarFormulario1").addClass("btn-primary");
+                        $("#mostrarFormulario2").removeClass("btn-primary");
+                    });
+                }
+            });
+
+            // Función para mostrar el formulario 2 en la ventana modal y resaltar el botón
+            $("#mostrarFormulario2").click(function () {
+                if (!$("#formulario2").hasClass("formulario-activa")) {
+                    $("#formulario1").fadeOut(100, function () {
+                        $("#formulario2").fadeIn(100).addClass("formulario-activa");
+                        $("#formulario1").removeClass("formulario-activa");
+
+                        // Resaltar el botón del formulario 2 y desresaltar el del formulario 1
+                        $("#mostrarFormulario2").addClass("btn-primary");
+                        $("#mostrarFormulario1").removeClass("btn-primary");
+                    });
+                }
+            });
+
+            // Función para mostrar el formulario 2 cuando se hace clic en "Create new"
+            $("#createNewBtn").click(function () {
+                $("#formulario1").fadeOut(100, function () {
+                    $("#formulario2").fadeIn(100).addClass("formulario-activa");
+                    $("#formulario1").removeClass("formulario-activa");
+
+                    // Resaltar el botón del formulario 2 y desresaltar el del formulario 1
+                    $("#mostrarFormulario2").addClass("btn-primary");
+                    $("#mostrarFormulario1").removeClass("btn-primary");
+                });
+            });
+
+            // Función para mostrar el formulario 1 cuando se hace clic en "Login here"
+            $("#loginHereBtn").click(function () {
+                $("#formulario2").fadeOut(100, function () {
+                    $("#formulario1").fadeIn(100).addClass("formulario-activa");
+                    $("#formulario2").removeClass("formulario-activa");
+
+                    // Resaltar el botón del formulario 1 y desresaltar el del formulario 2
+                    $("#mostrarFormulario1").addClass("btn-primary");
+                    $("#mostrarFormulario2").removeClass("btn-primary");
+                });
+            });
+
+            // Mostrar inicialmente el formulario 1 y resaltarlo
+            $("#formulario1").addClass("formulario-activa");
+            $("#mostrarFormulario1").addClass("btn-primary");
+
+            // Agregar el efecto de selección al hacer clic en la etiqueta de bolita
+            $('.bolita-label').on('click', function () {
+                // Desmarca todas las demás opciones al seleccionar una
+                $('.bolita-label').removeClass('selected');
+                $(this).addClass('selected');
+            });
+        });
+    </script>
+
+
+</body>
+
+</html>

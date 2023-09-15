@@ -13,3 +13,13 @@ def main(request):
 
 def reserves(request):
     return render(request, 'reserves.html')
+
+def services(request):
+    return render(request, 'services.html')
+
+def login(request):
+    return render(request, 'login.html')
+
+def editProfile(request):
+    return render(request, 'editProfile.html')
+
