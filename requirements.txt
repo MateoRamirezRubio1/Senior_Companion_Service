@@ -1,0 +1,7 @@
+django
+requests
+bcrypt
+mysqlclient
+mysql-connector-python
+pillow
+python-decouple
