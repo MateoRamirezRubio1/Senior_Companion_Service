@@ -14,14 +14,20 @@ git clone https://github.com/MateoRamirezRubio1/Senior_Companion_Service.git
 ```
 cd Senior_Companion_Service
 ```
-3. Make the required migrations
+3. Install the requeriments file to get the libraries needed on your device
+
+```
+pip install -r requirements.txt
+```
+
+4. Make the required migrations
 ```
 python manage.py makemigrations
 ```
-4. Run the server
+5. Run the server
 ```
 python manage.py runserver
 ```
-5. Go to http://127.0.0.1:8000/main
+6. Go to http://127.0.0.1:8000/main
 
 Once you have the app running, you will be able to view the main interfaces of the web app, such as the Home page, Reservations page and a LogIn/SignIn form
