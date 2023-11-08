@@ -555,3 +555,13 @@ body {
     max-width: 300px;
     width: 100%;
 }
+
+.label-trabajador {
+    position: absolute;
+    top: -30px; /* Ajusta este valor según sea necesario para la posición deseada */
+    left: 15px; /* Ajusta este valor según sea necesario para la posición deseada */
+    background-color: #ffffff; /* Cambia el color de fondo según tus preferencias */
+    padding: 0 5px;
+    font-size: 14px;
+    color: #555555; /* Cambia el color de texto según tus preferencias */
+}

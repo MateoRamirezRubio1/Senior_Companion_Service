@@ -246,3 +246,6 @@ def checkEditTime(times, day, id):
         if Appointment.objects.filter(day=day, time=k).count() < 1 or time == k:
             x.append(k)
     return x
+
+def reserveform(request):
+    return render(request, 'reserve_form.html')

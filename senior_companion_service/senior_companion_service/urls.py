@@ -21,8 +21,8 @@ from reserve import views as viewsReserve
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', viewsReserve.homePage, name="home"),
-    path('authentication/', include('authentication.urls')),
+    path('', include('authentication.urls')),
     path('customer/', include('customer.urls')),
     path('companion/', include('companion.urls')),
-    path('reserve/', include('reserve.urls')),
+    path('', include('reserve.urls')),
 ]

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Reserva</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #6ec583;
+            color: rgb(133, 127, 127);
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .btn-submit {
+            background-color: #6ec583;
+            color: white;
+        }
+        .btn-submit:hover {
+            background-color: #60a06e;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Formulario de Reserva</h1>
+        <form>
+            <div class="form-group">
+                <label for="trabajador" class="label-trabajador">Trabajador:</label>
+                <select class="form-control" id="trabajador">
+                    <option>Trabajador 1</option>
+                    <option>Trabajador 2</option>
+                    <option>Trabajador 3</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="empleador">Empleador:</label>
+                <select class="form-control" id="empleador">
+                    <option>Empleador 1</option>
+                    <option>Empleador 2</option>
+                    <option>Empleador 3</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="tipo_contrato">Tipo de Contrato:</label>
+                <select class="form-control" id="tipo_contrato">
+                    <option>Contrato 1</option>
+                    <option>Contrato 2</option>
+                    <option>Contrato 3</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="fecha_inicio">Fecha de Inicio:</label>
+                <input type="date" class="form-control" id="fecha_inicio">
+            </div>
+            <div class="form-group">
+                <label for="fecha_finalizacion">Fecha de Finalización:</label>
+                <input type="date" class="form-control" id="fecha_finalizacion">
+            </div>
+            <div class="form-group">
+                <label for="descripcion">Descripción de la Reserva:</label>
+                <textarea class="form-control" id="descripcion" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="tarifa">Tarifa del Contrato:</label>
+                <input type="text" class="form-control" id="tarifa" placeholder="Ingrese la tarifa">
+            </div>
+            <button type="submit" class="btn btn-submit">Hacer Reserva</button>
+        </form>
+    </div>
+</body>
+</html>
