@@ -1,6 +1,9 @@
 import bcrypt
 from django.db import models
+from PIL import Image
+import os
 from django.contrib.auth.models import AbstractBaseUser
+
 
 class User(AbstractBaseUser):
     """
@@ -30,15 +33,15 @@ class User(AbstractBaseUser):
     birthDate = models.DateField(null=True)
     genre = models.CharField(
         max_length=6,
-        choices=[('male', 'Male'), ('female', 'Female'), ('other', 'Other')],
-        null=True
+        choices=[("male", "Male"), ("female", "Female"), ("other", "Other")],
+        null=True,
     )
     email = models.CharField(max_length=60, unique=True, null=False)
-    profilePhoto = models.CharField(max_length=200, null=True)
+    profilePhoto = models.ImageField(upload_to="profile_photos/", null=True)
     registrationDate = models.DateField(auto_now_add=True)
     location = models.CharField(max_length=100, null=True)
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = "email"
 
     def save(self, *args, **kwargs):
         """
@@ -49,9 +52,32 @@ class User(AbstractBaseUser):
             **kwargs: Additional keyword arguments.
         """
         if not self.idUser and self.password:
-            self.password = bcrypt.hashpw(self.password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+            self.password = bcrypt.hashpw(
+                self.password.encode("utf-8"), bcrypt.gensalt()
+            ).decode("utf-8")
+
+        # Remove the previous profile photo before saving the new one
+        try:
+            old_instance = User.objects.get(pk=self.pk)
+            if (
+                old_instance.profilePhoto
+                and self.profilePhoto != old_instance.profilePhoto
+            ):
+                if os.path.isfile(old_instance.profilePhoto.path):
+                    os.remove(old_instance.profilePhoto.path)
+        except User.DoesNotExist:
+            pass
 
         super(User, self).save(*args, **kwargs)
+
+        # Resize and save the profile photo if it exists
+        if self.profilePhoto:
+            img = Image.open(self.profilePhoto.path)
+            if img.height > 300 or img.width > 300:
+                output_size = (300, 300)
+                img.thumbnail(output_size)
+                img.save(self.profilePhoto.path)
+
 
 class Language(models.Model):
     """
@@ -64,6 +90,7 @@ class Language(models.Model):
 
     idLanguage = models.AutoField(primary_key=True)
     name = models.CharField(max_length=45, unique=True)
+
 
 class LanguageUser(models.Model):
     """
