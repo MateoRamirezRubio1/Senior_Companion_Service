@@ -124,6 +124,12 @@ body {
     opacity: 0;
 }
 
+.logo-img {
+    width: 100px; /* Ancho deseado */
+    height: auto; /* Altura automática para mantener la proporción */
+    /* Otras propiedades CSS según tus preferencias */
+}
+
 /* Estilo para el enlace de la flecha */
 #arrow-icon i {
     color: white;

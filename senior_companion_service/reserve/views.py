@@ -2,9 +2,12 @@ from django.shortcuts import render, redirect
 from datetime import datetime, timedelta
 from .models import *
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from authentication.models import User as UserA
+from companion.models import Companion as Comp
 
-def index(request):
-    return render(request, "index.html",{})
+def about(request):
+    return render(request, "about.html")
 
 def homeReserve(request):
     return render(request, 'reserve/home_reserve.html', {'name_page': 'homeReserve'})
@@ -13,8 +16,10 @@ def homeReserve(request):
 def homePage(request):
     return render(request, 'reserve/home_page.html', {'name_page': 'home'})
 
+@login_required
 def bookingSubmit(request):
-    user = request.user
+    idActualUser = request.user.idUser
+    userr = UserA.objects.get(idUser=idActualUser)
     times = [
     "8:00 AM", "8:30 AM", "9:00 AM", "9:30 AM",
     "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
@@ -44,16 +49,15 @@ def bookingSubmit(request):
                     if Appointment.objects.filter(day=day).count() < 11:
                         if Appointment.objects.filter(day=day, time=time).count() < 1:
                             AppointmentForm = Appointment.objects.get_or_create(
-                                user = user,
+                                user = userr,
                                 service = service,
-
 
                                 
                                 day = day,
                                 time = time,
                             )
                             messages.success(request, "Appointment Saved!")
-                            return redirect('homeReserve')
+                            return redirect('homePage')
                         else:
                             messages.success(request, "The Selected Time Has Been Reserved Before!")
                     else:
@@ -68,7 +72,7 @@ def bookingSubmit(request):
         'times':hour,
     })
 
-
+@login_required
 def booking(request):
     #Calling 'validWeekday' Function to Loop days you want in the next 21 days:
     weekdays = validWeekday(22)
@@ -76,7 +80,7 @@ def booking(request):
     #Only show the days that are not full:
     validateWeekdays = isWeekdayValid(weekdays)
     
-
+    companions = Comp.objects.all()
     if request.method == 'POST':
         service = request.POST.get('service')
         day = request.POST.get('day')
@@ -90,10 +94,13 @@ def booking(request):
 
         return redirect('bookingSubmit')
 
-
-    return render(request, 'booking.html', {
+    print("booking")
+    prueba = "10"
+    return render(request, 'reserve/booking.html', {
             'weekdays':weekdays,
             'validateWeekdays':validateWeekdays,
+            'companions':companions,
+            "prueba" :prueba,
         })
 
 def userPanel(request):
@@ -248,4 +255,6 @@ def checkEditTime(times, day, id):
     return x
 
 def reserveform(request):
-    return render(request, 'reserve_form.html')
+    companions = Companion.objects.all()
+    comp = companions
+    return render(request, 'reserve_form.html',{'companions':companions, 'comp':comp})

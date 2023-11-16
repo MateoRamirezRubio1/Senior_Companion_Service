@@ -30,23 +30,16 @@
         <h1>Formulario de Reserva</h1>
         <form>
             <div class="form-group">
-                <label for="trabajador" class="label-trabajador">Trabajador:</label>
+                <label for="trabajador" class="label-trabajador">Acompañante:</label>
                 <select class="form-control" id="trabajador">
-                    <option>Trabajador 1</option>
-                    <option>Trabajador 2</option>
-                    <option>Trabajador 3</option>
+                    <h5>{{comp}}</h5>
+                    {% for companion in companions %}
+                        <option value="{{ companion.idUser }}">{{ companion.names}}</option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="form-group">
-                <label for="empleador">Empleador:</label>
-                <select class="form-control" id="empleador">
-                    <option>Empleador 1</option>
-                    <option>Empleador 2</option>
-                    <option>Empleador 3</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="tipo_contrato">Tipo de Contrato:</label>
+                <label for="tipo_contrato">Tipo de servicio:</label>
                 <select class="form-control" id="tipo_contrato">
                     <option>Contrato 1</option>
                     <option>Contrato 2</option>
@@ -58,11 +51,22 @@
                 <input type="date" class="form-control" id="fecha_inicio">
             </div>
             <div class="form-group">
-                <label for="fecha_finalizacion">Fecha de Finalización:</label>
-                <input type="date" class="form-control" id="fecha_finalizacion">
-            </div>
+                <label for="fecha_inicio">Hora del servicio:</label>
+                <select class="form-select fs-3 text-center" name="time">
+                    <option value="8:00">8:00</option>
+                    <option value="9:00">9:00</option>
+                    <option value="10:00">10:00</option>
+                    <option value="11:00">11:00</option>
+                    <option value="12:00">12:00</option>
+                    <option value="13:00">13:00</option>
+                    <option value="14:00">14:00</option>
+                    <option value="15:00">15:00</option>
+                    <option value="16:00">16:00</option>
+                    <option value="17:00">17:00</option>
+                    <option value="18:00">18:00</option> 
+                </select>    </div>
             <div class="form-group">
-                <label for="descripcion">Descripción de la Reserva:</label>
+                <label for="descripcion">Necesidades específicas:</label>
                 <textarea class="form-control" id="descripcion" rows="3"></textarea>
             </div>
             <div class="form-group">

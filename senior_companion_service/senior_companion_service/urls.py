@@ -27,6 +27,7 @@ urlpatterns = [
     path("customer/", include("customer.urls")),
     path("companion/", include("companion.urls")),
     path("reserve/", include("reserve.urls")),
+     path("about/", viewsReserve.about, name="about"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
