@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from authentication.views import edit_user_profile
 
 urlpatterns = [
     path("create/", views.CustomerRegistrationView.as_view(), name="createCustomer"),
@@ -15,6 +16,6 @@ urlpatterns = [
         views.delete_preference,
         name="deletePreference",
     ),
-    path("edit/userProfile", views.edit_user_profile, name="editUserProfile"),
+    path("edit/userProfile", edit_user_profile, name="editUserProfileCustomer"),
     path("edit/customer", views.edit_customer, name="editCustomer"),
 ]

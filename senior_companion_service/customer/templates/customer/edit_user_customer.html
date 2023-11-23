@@ -201,7 +201,8 @@
 
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="personal">
-                            <form method="POST" action="{% url 'editUserProfile' %}" enctype="multipart/form-data">
+                            <form method="POST" action="{% url 'editUserProfileCustomer' %}"
+                                enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <h6 class="mb-2 text-primary form-title">Personal Information</h6>
                                 <p>Here you can edit your personal information.</p>
@@ -221,7 +222,7 @@
                                             name="{{ field.name }}" accept="image/*">
                                         {% else %}
                                         <input type="text" class="form-control" id="{{ field.id_for_label }}"
-                                            name="{{ field.name }}" placeholder="{{ field.label }}"
+                                            name="{{ field.name }}" placeholder="Your {{ field.label }}"
                                             value="{% if field.value %}{{ field.value }}{% endif %}">
                                         {% endif %}
                                     </div>
@@ -297,18 +298,28 @@
                             <p>In this list you can see the preferences you currently have and you can delete them with
                                 the delete button to the right
                                 of each preference.</p>
-                            <ul class="list-group mt-3">
-                                {% for preference in listPreferenceCustomer %}
-                                <li class="list-group-item">
-                                    <p style="font-weight: 500;">
-                                        Preference name:
-                                        <span style="font-weight: bold;">{{ preference.description }}</span>
-                                    </p>
-                                    <a href="{% url 'deletePreference' idPreference=preference.idPreference %}"
-                                        class="btn btn-danger btn-sm">Delete</a>
-                                </li>
-                                {% endfor %}
-                            </ul>
+                            <table class="table mt-3">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Preference Name/Description</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for preference in listPreferenceCustomer %}
+                                    <tr>
+                                        <td>{{ preference.description }}</td>
+                                        <td>
+                                            <a href="{% url 'deletePreference' idPreference=preference.idPreference %}"
+                                                class="btn btn-danger btn-sm">Delete</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            {% if not listPreferenceCustomer %}
+                            <p style="text-align: center;">You do not have preferences at the moment.</p>
+                            {% endif %}
                         </div>
 
                     </div>

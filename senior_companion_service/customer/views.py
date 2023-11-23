@@ -121,7 +121,7 @@ def create_preference(request):
             preference.idCustomer = actualCustomer
             preference.save()
 
-            messages.success(request, "¡Correctly updated medical information!")
+            messages.success(request, "¡Preference added correctly!")
         else:
             messages.error(request, "Error in the form. Please correct the errors.")
         return redirect("editGeneralAllCustomer")
@@ -162,7 +162,7 @@ def delete_preference(request, idPreference):
     actualCustomer = get_actualCustomer(request)
     preference = get_object_or_404(Preference, idPreference=idPreference)
 
-    # Verificar que el usuario sea el propietario de la preferencia
+    # Verify that the user is the preference owner
     if actualCustomer.idCustomer == preference.idCustomer.idCustomer:
         preference.delete()
         messages.success(request, "The preference was successfully deleted.")
@@ -174,17 +174,36 @@ def delete_preference(request, idPreference):
 
 @login_required
 def edit_customer(request):
+    """
+    Edits customer information based on the provided request.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        form: The customer update form.
+
+    Note:
+        This function utilizes the Django authentication decorator `@login_required`.
+        It handles both GET and POST requests for editing customer information.
+    """
+    # Retrieve the current customer using a utility function.
     actualCustomer = get_actualCustomer(request)
 
     if request.method == "POST":
+        # Process the form submission for updating customer information.
         form = CustomerUpdateForm(request.POST, instance=actualCustomer)
         if form.is_valid():
+            # Save the form changes if valid and display success message.
             form.save()
             messages.success(request, "¡Correctly updated personal presentation!")
         else:
+            # Display an error message if the form is invalid.
             messages.error(request, "Error in the form. Please correct the errors.")
+        # Redirect the user to the customer edit page.
         return redirect("editGeneralAllCustomer")
     else:
+        # Display the customer update form for GET requests.
         form = CustomerUpdateForm(instance=actualCustomer)
 
     return form
