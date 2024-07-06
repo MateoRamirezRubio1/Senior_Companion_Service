@@ -1,5 +1,8 @@
 # Senior_Companion_Service
 
+**For the complete project documentation see the repository wiki:**
+[Complete Documentation](https://github.com/MateoRamirezRubio1/Senior_Companion_Service/wiki)
+
 This is a web app, wich purpose is to create a comprehensive and user-friendly platform that facilitates the connection between elderly individuals seeking companionship and caregiving services, and qualified companions or nurses. The software aims to address the social and healthcare needs of the elderly population by providing a convenient and secure way for them to find suitable companions or caregivers for their daily activities, assistance with health-related tasks, and emotional support.
 
 ## Getting Started
